@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "tdesign-vue-next": "^1.7.1",
-    "vue": "^3.3.11"
+    "vue": "^3.3.11",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.4.5",
