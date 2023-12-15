@@ -1,18 +1,22 @@
 {
   "name": "oh-dev",
-  "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite --host",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "vue": "^3.3.11"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.4.5",
     "@vitejs/plugin-vue": "^4.5.2",
+    "eslint": "^8.55.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vue-tsc": "^1.8.25"
