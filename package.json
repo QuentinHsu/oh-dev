@@ -11,6 +11,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@vueuse/core": "^10.7.0",
     "tdesign-vue-next": "^1.7.1",
     "vue": "^3.3.11",
     "vue-router": "4"

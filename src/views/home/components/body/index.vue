@@ -30,7 +30,7 @@
   }
   .container {
     padding: 20px;
-    box-shadow: -1px 0 0 0 #e7e7e7;
+    box-shadow: var(--td-shadow-inset-left);
   }
 }
 </style>
