@@ -11,6 +11,8 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     TAside: typeof import('tdesign-vue-next')['Aside']
     TButton: typeof import('tdesign-vue-next')['Button']
+    TCollapse: typeof import('tdesign-vue-next')['Collapse']
+    TCollapsePanel: typeof import('tdesign-vue-next')['CollapsePanel']
     TContent: typeof import('tdesign-vue-next')['Content']
     THeader: typeof import('tdesign-vue-next')['Header']
     THeadMenu: typeof import('tdesign-vue-next')['HeadMenu']
@@ -22,5 +24,6 @@ declare module 'vue' {
     TRadioGroup: typeof import('tdesign-vue-next')['RadioGroup']
     TSpace: typeof import('tdesign-vue-next')['Space']
     TSwitch: typeof import('tdesign-vue-next')['Switch']
+    TTextarea: typeof import('tdesign-vue-next')['Textarea']
   }
 }
