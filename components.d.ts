@@ -13,8 +13,6 @@ declare module 'vue' {
     TButton: typeof import('tdesign-vue-next')['Button']
     TCollapse: typeof import('tdesign-vue-next')['Collapse']
     TCollapsePanel: typeof import('tdesign-vue-next')['CollapsePanel']
-    TContent: typeof import('tdesign-vue-next')['Content']
-    THeader: typeof import('tdesign-vue-next')['Header']
     THeadMenu: typeof import('tdesign-vue-next')['HeadMenu']
     TIcon: typeof import('tdesign-vue-next')['Icon']
     TLayout: typeof import('tdesign-vue-next')['Layout']
@@ -22,8 +20,7 @@ declare module 'vue' {
     TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
     TRadioButton: typeof import('tdesign-vue-next')['RadioButton']
     TRadioGroup: typeof import('tdesign-vue-next')['RadioGroup']
-    TSpace: typeof import('tdesign-vue-next')['Space']
-    TSwitch: typeof import('tdesign-vue-next')['Switch']
+    TTable: typeof import('tdesign-vue-next')['Table']
     TTextarea: typeof import('tdesign-vue-next')['Textarea']
   }
 }
