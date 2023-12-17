@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { watch } from "vue";
 import { useColorMode, UseColorModeReturn } from "@vueuse/core";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 const systemThemeMode: UseColorModeReturn = useColorMode(); // Ref<'dark' | 'light'>
 
 const themeMode: UseColorModeReturn = systemThemeMode; // Ref<'dark' | 'light'>
@@ -28,7 +29,7 @@ watch(
 <template>
   <t-head-menu class="header">
     <template #logo>
-      <div class="logo">oh dev</div>
+      <div class="logo" @click="router.push({ path: '/' })">oh dev</div>
     </template>
     <template #operations>
       <t-radio-group v-model:value="themeMode">
