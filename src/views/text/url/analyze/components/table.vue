@@ -3,6 +3,8 @@ import { computed } from "vue";
 import { isColor } from "@/utils/is.ts";
 import { useClipboard } from "@vueuse/core";
 import { MessagePlugin } from "tdesign-vue-next";
+import { RiFileCopyLine } from "@remixicon/vue";
+
 const { copy } = useClipboard();
 
 const props = defineProps({
@@ -45,23 +47,46 @@ const copyText = (content: string): void => {
 
 <template>
   <t-table row-key="index" :data="tableData" :columns="columns">
+    <template #key="{ row }">
+      <div style="display: flex; align-items: center">
+        <span>
+          {{ row.key }}
+        </span>
+        <span class="icon-copy">
+          <RiFileCopyLine
+            style="margin-left: 40px"
+            v-show="row.value"
+            @click="copyText(row.value)"
+          />
+        </span>
+      </div>
+    </template>
     <template #value="{ row }">
-      <template v-if="isColor(row.value)">
-        <span
-          :style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
-          >{{ row.value }}</span
-        >
-      </template>
-      <template v-else>{{ row.value }}</template>
-      <t-button
-        size="small"
-        style="margin-left: 40px"
-        v-show="row.value"
-        @click="copyText(row.value)"
-        >Copy</t-button
-      >
+      <div style="display: flex; align-items: center">
+        <template v-if="isColor(row.value)">
+          <span
+            :style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
+            >{{ row.value }}</span
+          >
+        </template>
+        <template v-else>{{ row.value }}</template>
+        <span class="icon-copy">
+          <RiFileCopyLine
+            style="margin-left: 40px"
+            v-show="row.value"
+            @click="copyText(row.value)"
+          />
+        </span>
+      </div>
     </template>
   </t-table>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.icon-copy {
+  color: var(--td-success-color-2);
+  :hover {
+    color: var(--td-success-color-9);
+  }
+}
+</style>

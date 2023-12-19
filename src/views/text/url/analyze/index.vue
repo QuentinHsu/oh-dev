@@ -79,7 +79,7 @@ watch(
     <!-- input -->
     <t-textarea
       v-model="input"
-      placeholder="请输入"
+      placeholder="请输入正确格式的 URL 内容"
       name="description"
       :autosize="{ minRows: 5 }"
       :status="inputStatus.isURL"
