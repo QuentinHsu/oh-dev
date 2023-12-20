@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="url">
+  <div class="html">
     <RouterView />
   </div>
 </template>

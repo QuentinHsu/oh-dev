@@ -13,6 +13,7 @@
   "dependencies": {
     "@remixicon/vue": "^4.0.1",
     "@vueuse/core": "^10.7.0",
+    "html-entities": "^2.4.0",
     "tdesign-vue-next": "^1.7.1",
     "vue": "^3.3.12",
     "vue-router": "4.2.5"

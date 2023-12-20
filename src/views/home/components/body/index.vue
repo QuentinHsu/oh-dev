@@ -5,11 +5,17 @@
     <t-layout>
       <t-aside>
         <t-menu class="menu-right">
-          <t-menu-item value="0" to="/text/url/analyze">
+          <t-menu-item value="/text/url/analyze" to="/text/url/analyze">
             <template #icon>
               <t-icon name="app" />
             </template>
             URL 解析
+          </t-menu-item>
+          <t-menu-item value="/text/html/entity" to="/text/html/entity">
+            <template #icon>
+              <t-icon name="app" />
+            </template>
+            HTML 字符转义
           </t-menu-item>
         </t-menu>
       </t-aside>
