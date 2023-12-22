@@ -112,5 +112,8 @@ watch(
   :deep(.t-collapse-panel__content) {
     padding: 0;
   }
+  :deep(textarea) {
+    word-break: break-all;
+  }
 }
 </style>
