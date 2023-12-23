@@ -80,9 +80,10 @@ watch(
     <t-textarea
       v-model="input"
       placeholder="请输入正确格式的 URL 内容"
-      name="description"
+      name="input"
       :autosize="{ minRows: 5 }"
       :status="inputStatus.isURL"
+      class="input"
     />
     <!-- output -->
     <t-collapse :default-value="[1]">
@@ -93,8 +94,9 @@ watch(
         <t-textarea
           v-model="decodeURL"
           placeholder="这里是 encode 的结果"
-          name="description"
+          name="output"
           :autosize="{ minRows: 5 }"
+          class="output"
         />
       </t-collapse-panel>
     </t-collapse>
@@ -114,6 +116,18 @@ watch(
   }
   :deep(textarea) {
     word-break: break-all;
+  }
+  .input {
+    :deep(textarea) {
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+  }
+
+  .output {
+    :deep(textarea) {
+      border: 0px;
+    }
   }
 }
 </style>
