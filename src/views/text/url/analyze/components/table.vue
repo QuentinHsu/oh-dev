@@ -131,6 +131,7 @@ const copyText = (content: string): void => {
 
 <style lang="less" scoped>
 .icon-copy {
+  cursor: pointer;
   color: var(--td-success-color-2);
   :hover {
     color: var(--td-success-color-9);
