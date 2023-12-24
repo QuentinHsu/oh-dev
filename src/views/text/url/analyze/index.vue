@@ -28,31 +28,18 @@ const onAnalyzeURL = (content: string): string => {
   return onDecodeURL(content);
 };
 const parseURL = (url: string): { params: { [key: string]: string } } => {
-  let parsedURL = new URL(url);
-  let params: { [key: string]: string } = {};
-  // let hashRoute = "";
-  // let hashParams: { [key: string]: string } = {};
-  for (let [key, value] of parsedURL.searchParams) {
-    params[key] = value;
-  }
-  if (parsedURL.hash) {
-    let hashParts = parsedURL.hash.split("?");
-    // hashRoute = hashParts[0];
-    if (hashParts[1]) {
-      let hashParamParts = hashParts[1].split("&");
-      for (let part of hashParamParts) {
-        let [key, value] = part.split("=");
-        params[key] = decodeURIComponent(value);
-      }
-    }
-  }
+  let queryString = url.split("?")[1];
+  let paramsArr = queryString.split("&");
+  let paramsObj = paramsArr.reduce(
+    (obj: { [key: string]: string }, param: string) => {
+      let [key, value] = param.split("=");
+      obj[key] = decodeURIComponent(value);
+      return obj;
+    },
+    {}
+  );
   return {
-    // protocol: parsedURL.protocol,
-    // domain: parsedURL.hostname,
-    // path: parsedURL.pathname,
-    params: params,
-    // hashRoute: hashRoute,
-    // hashParams: hashParams,
+    params: paramsObj,
   };
 };
 watch(
