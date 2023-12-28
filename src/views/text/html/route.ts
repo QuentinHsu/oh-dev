@@ -1,14 +1,14 @@
 const HTML = [
   {
-    path: "html",
-    meta: { title: "" },
+    path: 'html',
+    meta: { title: '' },
     children: [
       {
-        path: "entity",
-        meta: { title: "" },
-        component: () => import("./entity/index.vue"),
+        path: 'entity',
+        meta: { title: '' },
+        component: () => import('./entity/index.vue'),
       },
     ],
   },
-];
-export default HTML;
+]
+export default HTML

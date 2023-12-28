@@ -2,7 +2,9 @@
 
 <template>
   <div class="welcome">
-    <div class="title">Welcome to oh dev!</div>
+    <div class="title">
+      Welcome to oh dev!
+    </div>
   </div>
 </template>
 

@@ -1,64 +1,66 @@
 <script setup lang="ts">
-import { ref, watch, type Ref, reactive } from "vue";
-import { REG_EXP_URL } from "@/constants/regex.ts";
-import { TypeTextURLAnalyze } from "./type";
-import { MessagePlugin } from "tdesign-vue-next";
-import Table from "./components/table.vue";
+import { type Ref, reactive, ref, watch } from 'vue'
+import { MessagePlugin } from 'tdesign-vue-next'
+import type { TypeTextURLAnalyze } from './type'
+import Table from './components/table.vue'
+import { REG_EXP_URL } from '@/constants/regex.ts'
 
-const input: Ref<string> = ref("");
-const inputStatus: TypeTextURLAnalyze["inputStatus"] = reactive({
-  isURL: "default",
-});
+const input: Ref<string> = ref('')
+const inputStatus: TypeTextURLAnalyze['inputStatus'] = reactive({
+  isURL: 'default',
+})
 let inputURLQuery: { params: { [key: string]: string } } = reactive({
   params: {},
-});
+})
 
-const onDecodeURL = (content: string): string => {
-  let decode = decodeURIComponent(content);
+function onDecodeURL(content: string): string {
+  let decode = decodeURIComponent(content)
   while (decode !== content) {
-    content = decode;
-    decode = decodeURIComponent(content);
+    content = decode
+    decode = decodeURIComponent(content)
   }
-  return decode;
-};
+  return decode
+}
 
-const decodeURL: Ref<string> = ref("");
+const decodeURL: Ref<string> = ref('')
 
-const onAnalyzeURL = (content: string): string => {
-  return onDecodeURL(content);
-};
-const parseURL = (url: string): { params: { [key: string]: string } } => {
-  let queryString = url.split("?")[1];
-  let paramsArr = queryString.split("&");
-  let paramsObj = paramsArr.reduce(
+function onAnalyzeURL(content: string): string {
+  return onDecodeURL(content)
+}
+function parseURL(url: string): { params: { [key: string]: string } } {
+  const queryString = url.split('?')[1]
+  const paramsArr = queryString.split('&')
+  const paramsObj = paramsArr.reduce(
     (obj: { [key: string]: string }, param: string) => {
-      let [key, value] = param.split("=");
-      obj[key] = decodeURIComponent(value);
-      return obj;
+      const [key, value] = param.split('=')
+      obj[key] = decodeURIComponent(value)
+      return obj
     },
-    {}
-  );
+    {},
+  )
   return {
     params: paramsObj,
-  };
-};
+  }
+}
 watch(
   () => input.value,
   () => {
     if (!input.value) {
-      inputStatus.isURL = "default";
-      decodeURL.value = "";
-    } else if (REG_EXP_URL.isURL.test(input.value)) {
-      inputStatus.isURL = "success";
-      decodeURL.value = onAnalyzeURL(input.value);
-      inputURLQuery = parseURL(decodeURL.value);
-    } else {
-      inputStatus.isURL = "error";
-      decodeURL.value = "";
-      MessagePlugin.error("请输入正确的 URL 格式！");
+      inputStatus.isURL = 'default'
+      decodeURL.value = ''
     }
-  }
-);
+    else if (REG_EXP_URL.isURL.test(input.value)) {
+      inputStatus.isURL = 'success'
+      decodeURL.value = onAnalyzeURL(input.value)
+      inputURLQuery = parseURL(decodeURL.value)
+    }
+    else {
+      inputStatus.isURL = 'error'
+      decodeURL.value = ''
+      MessagePlugin.error('请输入正确的 URL 格式！')
+    }
+  },
+)
 </script>
 
 <template>

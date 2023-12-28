@@ -1,17 +1,17 @@
 <script setup lang="tsx">
-import { RiArrowUpDownLine } from "@remixicon/vue";
-import { ref } from "vue";
-import { encode } from "html-entities";
+import { RiArrowUpDownLine } from '@remixicon/vue'
+import { ref } from 'vue'
+import { encode } from 'html-entities'
 
-const input = ref("");
-const output = ref("");
+const input = ref('')
+const output = ref('')
 
-const onBlurInput = () => {
-  let encodeText: string = encode(input.value);
+function onBlurInput() {
+  const encodeText: string = encode(input.value)
   // TODO 处理空格字符串默认不被转义的情况
-  encodeText.replace(/ /g, "&amp;nbsp;");
-  output.value = encodeText;
-};
+  encodeText.replace(/ /g, '&amp;nbsp;')
+  output.value = encodeText
+}
 </script>
 
 <template>
