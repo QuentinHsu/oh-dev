@@ -1,5 +1,6 @@
 <script setup lang="tsx">
-import { computed, reactive } from 'vue'
+import type { Ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import { MessagePlugin } from 'tdesign-vue-next'
 import { RiFileCopyLine } from '@remixicon/vue'
@@ -16,7 +17,11 @@ let sort = reactive({
   descending: true,
 })
 const { copy } = useClipboard()
-
+const selectedRowKeys: Ref<string[]> = ref([])
+function rehandleSelectChange(value: string[], ctx: any) {
+  selectedRowKeys.value = value
+  console.log(value, ctx)
+}
 type SortOrder = 'asc' | 'desc' | 'all'
 interface Item {
   key: string
@@ -70,6 +75,11 @@ const tableData = computed(() => {
 })
 
 const columns = [
+  {
+    colKey: 'row-select',
+    type: 'multiple',
+    width: 50,
+  },
   { colKey: 'key', title: 'Key', width: '350', sorter: true, sortType: 'all' },
   {
     colKey: 'value',
@@ -93,10 +103,12 @@ function copyText(content: string): void {
 
 <template>
   <t-table
-    row-key="index"
+    row-key="key"
     :data="tableData"
     :columns="columns"
     :sort="sort"
+    :selected-row-keys="selectedRowKeys"
+    @select-change="rehandleSelectChange"
     @sort-change="sortChange"
   >
     <template #key="{ row }">
