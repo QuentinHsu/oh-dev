@@ -48,6 +48,7 @@ watch(
     if (!input.value) {
       inputStatus.isURL = 'default'
       decodeURL.value = ''
+      inputURLQuery = { params: {} }
     }
     else if (REG_EXP_URL.isURL.test(input.value)) {
       inputStatus.isURL = 'success'
@@ -90,7 +91,7 @@ watch(
       </t-collapse-panel>
     </t-collapse>
     <div class="out-put">
-      <Table style="margin-top: 20px" :data="inputURLQuery.params" />
+      <Table style="margin-top: 20px" :data="inputURLQuery.params" :row-url="decodeURL" />
     </div>
   </div>
 </template>

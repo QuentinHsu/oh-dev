@@ -1,26 +1,30 @@
 <script setup lang="tsx">
 import type { Ref } from 'vue'
 import { computed, reactive, ref } from 'vue'
-import { useClipboard } from '@vueuse/core'
-import { MessagePlugin } from 'tdesign-vue-next'
 import { RiFileCopyLine } from '@remixicon/vue'
 import { isColor } from '@/utils/is.ts'
+import { copyText } from '@/utils/index.ts'
 
 const props = defineProps({
   data: {
     type: Object,
     default: () => {},
   },
+  rowUrl: {
+    type: String,
+    default: '',
+  },
 })
 let sort = reactive({
   sortBy: 'key',
   descending: true,
 })
-const { copy } = useClipboard()
+const urlPath = computed(() => {
+  return props.rowUrl && props.rowUrl.split('?')[0]
+})
 const selectedRowKeys: Ref<string[]> = ref([])
-function rehandleSelectChange(value: string[], ctx: any) {
+function rehandleSelectChange(value: string[]) {
   selectedRowKeys.value = value
-  console.log(value, ctx)
 }
 type SortOrder = 'asc' | 'desc' | 'all'
 interface Item {
@@ -90,61 +94,71 @@ const columns = [
 function sortChange(val: any) {
   sort = val
 }
-function copyText(content: string): void {
-  copy(content)
-    .then(() => {
-      MessagePlugin.success('Copy successful')
-    })
-    .catch(() => {
-      MessagePlugin.error('Copy failed')
-    })
-}
+
+const newURL = computed(() => {
+  let newURL = ''
+  const urlParams = selectedRowKeys.value.length
+    ? `?${selectedRowKeys.value.map((item) => {
+    return `${item}=${props.data[item]}`
+  }).join('&')}`
+    : ''
+  newURL = `${urlPath.value}${urlParams}`
+  return newURL
+})
 </script>
 
 <template>
-  <t-table
-    row-key="key"
-    :data="tableData"
-    :columns="columns"
-    :sort="sort"
-    :selected-row-keys="selectedRowKeys"
-    @select-change="rehandleSelectChange"
-    @sort-change="sortChange"
-  >
-    <template #key="{ row }">
-      <div style="display: flex; align-items: center">
-        <span>
-          {{ row.key }}
-        </span>
-        <span class="icon-copy">
-          <RiFileCopyLine
-            v-show="row.value"
-            style="margin-left: 40px"
-            @click="copyText(row.value)"
-          />
-        </span>
-      </div>
-    </template>
-    <template #value="{ row }">
-      <div style="display: flex; align-items: center">
-        <template v-if="isColor(row.value)">
-          <span
-            :style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
-          >{{ row.value }}</span>
-        </template>
-        <template v-else>
-          {{ row.value }}
-        </template>
-        <span class="icon-copy">
-          <RiFileCopyLine
-            v-show="row.value"
-            style="margin-left: 40px"
-            @click="copyText(row.value)"
-          />
-        </span>
-      </div>
-    </template>
-  </t-table>
+  <div class="params-table">
+    <t-table
+      row-key="key"
+      :data="tableData"
+      :columns="columns"
+      :sort="sort"
+      :selected-row-keys="selectedRowKeys"
+      @select-change="rehandleSelectChange"
+      @sort-change="sortChange"
+    >
+      <template #key="{ row }">
+        <div style="display: flex; align-items: center">
+          <span>
+            {{ row.key }}
+          </span>
+          <span class="icon-copy">
+            <RiFileCopyLine
+              v-show="row.value"
+              style="margin-left: 40px"
+              @click="copyText(row.value)"
+            />
+          </span>
+        </div>
+      </template>
+      <template #value="{ row }">
+        <div style="display: flex; align-items: center">
+          <template v-if="isColor(row.value)">
+            <span
+              :style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
+            >{{ row.value }}</span>
+          </template>
+          <template v-else>
+            {{ row.value }}
+          </template>
+          <span class="icon-copy">
+            <RiFileCopyLine
+              v-show="row.value"
+              style="margin-left: 40px"
+              @click="copyText(row.value)"
+            />
+          </span>
+        </div>
+      </template>
+    </t-table>
+
+    <t-alert v-if="newURL" style="margin-top: 20px;" theme="success" :title="newURL">
+      <template #operation>
+        <span @click="copyText(newURL)">Copy</span>
+      </template>
+    </t-alert>
+  </div>
 </template>
 
 <style lang="less" scoped>
@@ -153,6 +167,15 @@ function copyText(content: string): void {
   color: var(--td-success-color-2);
   :hover {
     color: var(--td-success-color-9);
+  }
+}
+:deep(.t-alert__title) {
+  word-break: break-all;
+
+}
+:deep(.t-alert__message) {
+  .t-alert__operation {
+    padding: 0;
   }
 }
 </style>
