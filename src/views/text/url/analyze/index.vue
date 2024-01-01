@@ -76,20 +76,6 @@ watch(
       class="input"
     />
     <!-- output -->
-    <t-collapse :default-value="[1]">
-      <t-collapse-panel>
-        <template #header>
-          <span>Encode Result</span>
-        </template>
-        <t-textarea
-          v-model="decodeURL"
-          placeholder="这里是 encode 的结果"
-          name="output"
-          :autosize="{ minRows: 5 }"
-          class="output"
-        />
-      </t-collapse-panel>
-    </t-collapse>
     <div class="out-put">
       <Table style="margin-top: 20px" :data="inputURLQuery.params" :row-url="decodeURL" />
     </div>
