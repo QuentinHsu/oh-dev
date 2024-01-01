@@ -28,8 +28,8 @@ function onAnalyzeURL(content: string): string {
   return onDecodeURL(content)
 }
 function parseURL(url: string): { params: { [key: string]: string } } {
-  const queryString = url.split('?')[1]
-  const paramsArr = queryString.split('&')
+  const queryString = url.split('?')[1] || ''
+  const paramsArr = queryString.includes('&') ? queryString.split('&') : []
   const paramsObj = paramsArr.reduce(
     (obj: { [key: string]: string }, param: string) => {
       const [key, value] = param.split('=')
