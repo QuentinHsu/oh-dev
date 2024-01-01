@@ -23,7 +23,10 @@ function onDecodeURL(content: string): string {
 }
 
 const decodeURL: Ref<string> = ref('')
-
+function onClickEmptyInput() {
+  input.value = ''
+  MessagePlugin.success('Your input has been cleared')
+}
 function onAnalyzeURL(content: string): string {
   return onDecodeURL(content)
 }
@@ -75,6 +78,12 @@ watch(
       :status="inputStatus.isURL"
       class="input"
     />
+    <!-- actions -->
+    <div class="actions">
+      <t-button theme="danger" @click="onClickEmptyInput">
+        Empty
+      </t-button>
+    </div>
     <!-- output -->
     <div class="out-put">
       <Table style="margin-top: 20px" :data="inputURLQuery.params" :row-url="decodeURL" />
