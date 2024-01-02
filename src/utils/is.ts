@@ -1,7 +1,7 @@
 /**
  * 判断传入的字符串内容是否是个颜色值
  * @param strColor
- * @returns
+ * @return {boolean}
  */
 export function isColor(strColor: string): boolean {
   // RGB or RGBA
@@ -10,15 +10,10 @@ export function isColor(strColor: string): boolean {
 
   // Hexadecimal
   const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+
   // HSL or HSLA
-  const hslPattern = /^hsl\((\d+),\s*([1-9]?[0-9]%,\s*[1-9]?[0-9]%)\)$/
-  const hslaPattern
-    = /^hsla\((\d+),\s*([1-9]?[0-9]%,\s*[1-9]?[0-9]%,\s*(0?\.\d+|1))\)$/
-  return (
-    rgbPattern.test(strColor)
-    || rgbaPattern.test(strColor)
-    || hexPattern.test(strColor)
-    || hslPattern.test(strColor)
-    || hslaPattern.test(strColor)
-  )
+  const hslPattern = /^hsl\((\d{1,3}\%?),\s*(100|[1-9]?\d)%,\s*(100|[1-9]?\d)%\)$/
+  const hslaPattern = /^hsla\((\d{1,3}\%?),\s*(100|[1-9]?\d)%,\s*(100|[1-9]?\d)%,\s*(0?\.\d+|1)\)$/
+
+  return rgbPattern.test(strColor) || rgbaPattern.test(strColor) || hexPattern.test(strColor) || hslPattern.test(strColor) || hslaPattern.test(strColor)
 }
