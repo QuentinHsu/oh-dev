@@ -96,6 +96,9 @@ function sortChange(val: any) {
 }
 
 const newURL = computed(() => {
+  if (!urlPath.value)
+    return ''
+
   let newURL = ''
   const urlParams = selectedRowKeys.value.length
     ? `?${selectedRowKeys.value.map((item) => {
