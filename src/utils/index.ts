@@ -1,13 +1,20 @@
 import { useClipboard } from '@vueuse/core'
 import { MessagePlugin } from 'tdesign-vue-next'
 
-export function copyText(content: string): void {
+/**
+ * 复制文本
+ * @param {string} content
+ * @return {boolean}
+ */
+export function copyText(content: string): boolean {
   const { copy } = useClipboard()
-  copy(content)
-    .then(() => {
-      MessagePlugin.success('Copy successful')
-    })
-    .catch(() => {
-      MessagePlugin.error('Copy failed')
-    })
+  try {
+    copy(content)
+    MessagePlugin.success('Copy successful')
+    return true
+  }
+  catch (error) {
+    MessagePlugin.error('Copy failed')
+    return false
+  }
 }
