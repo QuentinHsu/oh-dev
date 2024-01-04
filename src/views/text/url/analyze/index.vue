@@ -3,6 +3,7 @@ import { type Ref, reactive, ref, watch } from 'vue'
 import { MessagePlugin } from 'tdesign-vue-next'
 import type { TypeTextURLAnalyze } from './type'
 import Table from './components/table.vue'
+import Input from './components/input.vue'
 import { REG_EXP_URL } from '@/constants/regex.ts'
 
 const input: Ref<string> = ref('')
@@ -70,6 +71,7 @@ watch(
 <template>
   <div class="text-url-analyze">
     <!-- input -->
+    <Input />
     <t-textarea
       v-model="input"
       placeholder="请输入正确格式的 URL 内容"
