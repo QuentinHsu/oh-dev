@@ -1,5 +1,5 @@
 export interface TypeTextURLAnalyze {
   inputStatus: {
-    isURL: "default" | "success" | "error";
+    isHttpURL: "default" | "success" | "error";
   };
 }
