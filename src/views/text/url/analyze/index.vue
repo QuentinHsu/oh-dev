@@ -12,7 +12,6 @@ const inputURLQuery: Ref<{ status: string, params: { [key: string]: string } }> 
   params: {},
 })
 
-const decodeURL: Ref<string> = ref('')
 function onClickEmptyInput() {
   refInput.value?.onClear()
   MessagePlugin.success('Your input has been cleared')
