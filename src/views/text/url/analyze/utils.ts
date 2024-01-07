@@ -1,9 +1,11 @@
+/* eslint perfectionist/sort-objects: "error" */
 import { REG_EXP_URL } from '@/constants/regex'
 
-export function parseURL(url: string): { status: string, params: { [key: string]: string } } {
+export function parseURL(url: string): { status: string, params: { [key: string]: string }, fullPath: string } {
   if (!REG_EXP_URL.isHttpURL.test(url))
-    return { status: 'error', params: {} }
+    return { fullPath: '', params: {}, status: 'error' }
 
+  const fullPath = url.split('?')[0] || ''
   const queryString = url.split('?')[1] || ''
   const paramsArr = queryString.includes('&') ? queryString.split('&') : []
   const paramsObj = paramsArr.reduce(
@@ -15,8 +17,9 @@ export function parseURL(url: string): { status: string, params: { [key: string]
     {},
   )
   return {
-    status: 'success',
+    fullPath,
     params: paramsObj,
+    status: 'success',
   }
 }
 export function onDecodeURL(content: string): string {

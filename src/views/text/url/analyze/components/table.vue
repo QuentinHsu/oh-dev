@@ -10,17 +10,13 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
-  rowUrl: {
-    type: String,
-    default: '',
-  },
 })
 let sort = reactive({
   sortBy: 'key',
   descending: true,
 })
 const urlPath = computed(() => {
-  return props.rowUrl && props.rowUrl.split('?')[0]
+  return props.data.fullPath && props.data.fullPath.split('?')[0]
 })
 const selectedRowKeys: Ref<string[]> = ref([])
 function rehandleSelectChange(value: string[]) {
@@ -60,11 +56,11 @@ function sortItems(array: Item[], order: SortOrder = 'asc'): Item[] {
 }
 const tableData = computed(() => {
   const data = []
-  for (const key in props.data) {
-    if (Object.prototype.hasOwnProperty.call(props.data, key)) {
+  for (const key in props.data.params) {
+    if (Object.prototype.hasOwnProperty.call(props.data.params, key)) {
       data.push({
         key,
-        value: props.data[key],
+        value: props.data.params[key],
       })
     }
   }
@@ -74,8 +70,7 @@ const tableData = computed(() => {
       : sort?.descending === false
         ? 'desc'
         : 'all'
-  sortItems(data, sortTypeText)
-  return data
+  return sortItems(data, sortTypeText)
 })
 
 const columns = [
@@ -102,7 +97,7 @@ const newURL = computed(() => {
   let newURL = ''
   const urlParams = selectedRowKeys.value.length
     ? `?${selectedRowKeys.value.map((item) => {
-    return `${item}=${props.data[item]}`
+    return `${item}=${props.data.params[item]}`
   }).join('&')}`
     : ''
   newURL = `${urlPath.value}${urlParams}`

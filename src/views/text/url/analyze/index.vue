@@ -32,7 +32,7 @@ function onClickEmptyInput() {
     </div>
     <!-- output -->
     <div class="out-put">
-      <Table style="margin-top: 20px" :data="inputURLQuery.params" :row-url="decodeURL" />
+      <Table style="margin-top: 20px" :data="inputURLQuery" />
     </div>
   </div>
 </template>
