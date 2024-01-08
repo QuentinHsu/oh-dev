@@ -3,10 +3,11 @@ import { watch } from 'vue'
 import type { UseColorModeReturn } from '@vueuse/core'
 import { useColorMode } from '@vueuse/core'
 import { useRouter } from 'vue-router'
-const router = useRouter()
-const systemThemeMode: UseColorModeReturn = useColorMode() // Ref<'dark' | 'light'>
 
-const themeMode: UseColorModeReturn = systemThemeMode // Ref<'dark' | 'light'>
+const router = useRouter()
+const systemThemeMode: UseColorModeReturn = useColorMode()
+
+const themeMode: UseColorModeReturn = systemThemeMode
 
 watch(
   () => themeMode.value,
