@@ -123,9 +123,9 @@ const newURL = computed(() => {
           </span>
           <span class="icon-copy">
             <RiFileCopyLine
-              v-show="row.value"
+              v-show="row.key"
               style="margin-left: 40px"
-              @click="copyText(row.value)"
+              @click="copyText(row.key)"
             />
           </span>
         </div>
