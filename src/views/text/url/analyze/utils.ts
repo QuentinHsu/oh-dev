@@ -7,7 +7,20 @@ export function parseURL(url: string): { status: string, params: { [key: string]
 
   const fullPath = url.split('?')[0] || ''
   const queryString = url.split('?')[1] || ''
-  const paramsArr = (queryString.split('=').length - 1) === 0 ? [`${queryString}=`] : (queryString.split('=').length - 1) === 1 ? [queryString] : (queryString.split('=').length - 1) > 1 ? queryString.split('&') : []
+  const equalsCount = queryString.split('=').length - 1
+  let paramsArr: string[] = []
+  switch (equalsCount) {
+    case 0:
+      paramsArr = [`${queryString}=`]
+      break
+    case 1:
+      paramsArr = [queryString]
+      break
+    default:
+      if (equalsCount > 1)
+        paramsArr = queryString.split('&')
+      break
+  }
   const paramsObj = paramsArr.reduce(
     (obj: { [key: string]: string }, param: string) => {
       const [key, value] = param.split('=')
