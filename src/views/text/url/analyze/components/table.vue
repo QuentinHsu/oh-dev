@@ -118,13 +118,12 @@ const newURL = computed(() => {
     >
       <template #key="{ row }">
         <div style="display: flex; align-items: center">
-          <span>
+          <div style="margin-right: 40px; display: inline-flex">
             {{ row.key }}
-          </span>
+          </div>
           <span class="icon-copy">
             <RiFileCopyLine
               v-show="row.key"
-              style="margin-left: 40px"
               @click="copyText(row.key)"
             />
           </span>
