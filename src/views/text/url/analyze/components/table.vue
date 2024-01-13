@@ -131,18 +131,21 @@ const newURL = computed(() => {
       </template>
       <template #value="{ row }">
         <div style="display: flex; align-items: center">
-          <template v-if="isColor(row.value)">
-            <span
-              :style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
-            >{{ row.value }}</span>
-          </template>
-          <template v-else>
-            {{ row.value }}
-          </template>
+          <span style="margin-right: 40px; display: inline-flex">
+
+            <template v-if="isColor(row.value)">
+              <span
+                :style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
+              >{{ row.value }}</span>
+            </template>
+            <template v-else>
+              {{ row.value }}
+            </template>
+          </span>
           <span class="icon-copy">
             <RiFileCopyLine
               v-show="row.value"
-              style="margin-left: 40px"
+
               @click="copyText(row.value)"
             />
           </span>
