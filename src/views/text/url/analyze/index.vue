@@ -1,3 +1,4 @@
+/* eslint perfectionist/sort-objects: "error" */
 <script setup lang="ts">
 import { type Ref, ref } from 'vue'
 import { MessagePlugin } from 'tdesign-vue-next'
@@ -7,8 +8,9 @@ import Input from './components/input.vue'
 
 const refInput = ref<InstanceType<typeof Input> | null>(null)
 
-const inputURLQuery: Ref<{ status: string, params: { [key: string]: string } }> = ref({
+const inputURLQuery: Ref<{ status: string, params: { [key: string]: string }, fullPath: string }> = ref({
   status: 'success',
+  fullPath: '',
   params: {},
 })
 
@@ -25,7 +27,7 @@ function onClickEmptyInput() {
 
     <!-- actions -->
     <div class="actions">
-      <t-button theme="danger" @click="onClickEmptyInput">
+      <t-button :disabled="inputURLQuery.fullPath" theme="danger" @click="onClickEmptyInput">
         Empty
       </t-button>
     </div>
