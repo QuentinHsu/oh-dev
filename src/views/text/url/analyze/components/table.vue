@@ -132,7 +132,6 @@ const newURL = computed(() => {
       <template #value="{ row }">
         <div style="display: flex; align-items: center">
           <span style="margin-right: 40px; display: inline-flex">
-
             <template v-if="isColor(row.value)">
               <span
                 :style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
@@ -145,7 +144,6 @@ const newURL = computed(() => {
           <span class="icon-copy">
             <RiFileCopyLine
               v-show="row.value"
-
               @click="copyText(row.value)"
             />
           </span>
