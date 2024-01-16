@@ -17,6 +17,12 @@
             </template>
             HTML 字符转义
           </t-menu-item>
+          <t-menu-item value="/text/json" to="/text/json">
+            <template #icon>
+              <t-icon name="app" />
+            </template>
+            JSON
+          </t-menu-item>
         </t-menu>
       </t-aside>
       <t-layout>
