@@ -1,23 +1,25 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+</script>
 
 <template>
   <div class="body">
     <t-layout>
       <t-aside>
         <t-menu class="menu-right">
-          <t-menu-item value="/text/url/analyze" to="/text/url/analyze">
+          <t-menu-item value="/text/url/analyze" :to="{ path: '/text/url/analyze' }">
             <template #icon>
               <t-icon name="app" />
             </template>
             URL 解析
           </t-menu-item>
-          <t-menu-item value="/text/html/entity" to="/text/html/entity">
+          <t-menu-item value="/text/html/entity" :to="{ path: '/text/html/entity' }">
             <template #icon>
               <t-icon name="app" />
             </template>
             HTML 字符转义
           </t-menu-item>
-          <t-menu-item value="/text/json" to="/text/json">
+          <t-menu-item value="/text/html/entity" :to="{ path: '/text/json' }">
             <template #icon>
               <t-icon name="app" />
             </template>
