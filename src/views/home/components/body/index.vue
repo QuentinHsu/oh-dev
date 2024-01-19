@@ -1,5 +1,15 @@
 <script setup lang="ts">
+interface menuItem {
+  path: string
+  name: string
+  icon: string
+}
+const menuList: Array<menuItem> = [
 
+  { path: '/text/url/analyze', name: 'URL 解析', icon: 'app' },
+  { path: '/text/html/entity', name: 'HTML 字符转义', icon: 'app' },
+  { path: '/text/json', name: 'JSON', icon: 'app' },
+]
 </script>
 
 <template>
@@ -7,23 +17,11 @@
     <t-layout>
       <t-aside>
         <t-menu class="menu-right">
-          <t-menu-item value="/text/url/analyze" :to="{ path: '/text/url/analyze' }">
+          <t-menu-item v-for="item in menuList" :key="item.path" :value="item.path" :to="{ path: item.path }">
             <template #icon>
-              <t-icon name="app" />
+              <t-icon :name="item.icon" />
             </template>
-            URL 解析
-          </t-menu-item>
-          <t-menu-item value="/text/html/entity" :to="{ path: '/text/html/entity' }">
-            <template #icon>
-              <t-icon name="app" />
-            </template>
-            HTML 字符转义
-          </t-menu-item>
-          <t-menu-item value="/text/html/entity" :to="{ path: '/text/json' }">
-            <template #icon>
-              <t-icon name="app" />
-            </template>
-            JSON
+            {{ item.name }}
           </t-menu-item>
         </t-menu>
       </t-aside>
