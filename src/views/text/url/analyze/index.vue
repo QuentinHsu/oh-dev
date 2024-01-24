@@ -27,7 +27,7 @@ function onClickEmptyInput() {
 
     <!-- actions -->
     <div class="actions">
-      <t-button :disabled="Boolean(inputURLQuery.fullPath)" theme="danger" @click="onClickEmptyInput">
+      <t-button :disabled="!Boolean(inputURLQuery.fullPath)" theme="danger" @click="onClickEmptyInput">
         Empty
       </t-button>
     </div>
