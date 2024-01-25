@@ -2,6 +2,7 @@
 import type { Ref } from 'vue'
 import { computed, reactive, ref } from 'vue'
 import { RiFileCopyLine } from '@remixicon/vue'
+import type { PrimaryTableCol, TableRowData } from 'tdesign-vue-next'
 import { isColor } from '@/utils/is.ts'
 import { copyText } from '@/utils/index.ts'
 
@@ -18,8 +19,8 @@ let sort = reactive({
 const urlPath = computed(() => {
   return props.data.fullPath && props.data.fullPath.split('?')[0]
 })
-const selectedRowKeys: Ref<string[]> = ref([])
-function rehandleSelectChange(value: string[]) {
+const selectedRowKeys: Ref<(string | number)[]> = ref([])
+function rehandleSelectChange(value: (string | number)[]): void {
   selectedRowKeys.value = value
 }
 type SortOrder = 'asc' | 'desc' | 'all'
@@ -73,13 +74,13 @@ const tableData = computed(() => {
   return sortItems(data, sortTypeText)
 })
 
-const columns = [
+const columns: PrimaryTableCol<TableRowData>[] = [
   {
     colKey: 'row-select',
     type: 'multiple',
     width: 50,
   },
-  { colKey: 'key', title: 'Key', width: '350', sorter: true, sortType: 'all' },
+  { colKey: 'key', title: 'Key', width: 350, sorter: true, sortType: 'all' },
   {
     colKey: 'value',
     title: 'Value',
