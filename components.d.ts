@@ -21,7 +21,10 @@ declare module 'vue' {
     TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
     TRadioButton: typeof import('tdesign-vue-next')['RadioButton']
     TRadioGroup: typeof import('tdesign-vue-next')['RadioGroup']
+    TSpace: typeof import('tdesign-vue-next')['Space']
     TTable: typeof import('tdesign-vue-next')['Table']
+    TTabPanel: typeof import('tdesign-vue-next')['TabPanel']
+    TTabs: typeof import('tdesign-vue-next')['Tabs']
     TTextarea: typeof import('tdesign-vue-next')['Textarea']
   }
 }

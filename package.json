@@ -16,13 +16,13 @@
     "@vueuse/core": "^10.7.1",
     "html-entities": "^2.4.0",
     "json-editor-vue": "^0.11.2",
-    "tdesign-vue-next": "^1.7.2",
+    "tdesign-vue-next": "^1.8.1",
     "vanilla-jsoneditor": "^0.21.2",
     "vue": "^3.3.13",
     "vue-router": "4.2.5"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.6.1",
+    "@antfu/eslint-config": "^2.6.4",
     "@types/node": "^18.17.1",
     "@vitejs/plugin-vue": "^5.0.0",
     "eslint": "^8.56.0",

@@ -5,10 +5,10 @@ interface menuItem {
   icon: string
 }
 const menuList: Array<menuItem> = [
-
   { path: '/text/url/analyze', name: 'URL 解析', icon: 'app' },
   { path: '/text/html/entity', name: 'HTML 字符转义', icon: 'app' },
   { path: '/text/json', name: 'JSON', icon: 'app' },
+  { path: '/text/compared', name: '对比', icon: 'app' },
 ]
 </script>
 
