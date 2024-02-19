@@ -1,11 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Enter from './components/enter.vue'
+</script>
 
 <template>
   <t-space style="width: 100%;" direction="vertical" size="large">
     <t-row>
       <t-descriptions item-layout="vertical" size="large" style="width: 100%" :label-style="{ padding: '0 0 0 16px' }">
         <t-descriptions-item label="Object">
-          <t-textarea :autosize="{ minRows: 8 }" />
+          <Enter />
         </t-descriptions-item>
         <t-descriptions-item label="Keys">
           <t-textarea :autosize="{ minRows: 8 }" />
@@ -19,7 +21,6 @@
 :deep(.t-descriptions__body) {
   width: 100%
 }
-:deep(.t-descriptions__body td) {
 
-}
+:deep(.t-descriptions__body td) {}
 </style>
