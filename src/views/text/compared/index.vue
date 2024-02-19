@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { ref } from 'vue'
+import DOMParam from './param/index.vue'
 
 const tabList = {
   param: { label: '参数', value: 'param' },
@@ -12,6 +13,8 @@ const value = ref(1)
     <t-tabs v-model="value">
       <t-tab-panel v-for="item in Object.values(tabList)" :key="item.value" :value="item.value" :label="item.label" :destroy-on-hide="false" />
     </t-tabs>
+    <!-- content -->
+    <DOMParam v-if="tabList.param.value" />
   </t-space>
 </template>
 
