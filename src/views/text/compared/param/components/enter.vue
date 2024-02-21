@@ -2,36 +2,38 @@
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import type { TdTextareaProps } from 'tdesign-vue-next/lib/textarea/type'
+import { MessagePlugin } from 'tdesign-vue-next'
 import { isStringConvertibleToObjectNotArray } from '@/utils/is'
 
+const emit = defineEmits(['update:value'])
 const value = ref('')
 const valueStatus: Ref<TdTextareaProps['status']> = ref('default')
 function onBlur(): void {
-  valueStatus.value = value.value === ''
-    ? 'default'
-    : isStringConvertibleToObjectNotArray(value.value)
-      ? 'success'
-      : 'error'
+  if (valueStatus.value === 'error')
+    MessagePlugin[valueStatus.value]('请输入正确的 JSON 字符串')
+}
+function onChange(): void {
+  valueStatus.value = value.value === '' ? 'default' : isStringConvertibleToObjectNotArray(value.value) ? 'success' : 'error'
+  if (valueStatus.value === 'success')
+    emit('update:value', JSON.parse(value.value))
+
+  else
+    emit('update:value', {})
 }
 </script>
 
 <template>
   <div class="enter">
-    <t-textarea v-model="value" :autosize="{ minRows: 8 }" :status="valueStatus" @blur="onBlur" />
-    <t-icon name="paste" class="paste" />
+    <t-textarea v-model="value" :autosize="{ minRows: 8, maxRows: 8 }" :status="valueStatus" @blur="onBlur" @change="onChange" />
   </div>
 </template>
 
 <style lang="less" scoped>
 .enter {
-  position: relative;
-
-  // display: inline-block;
-  .paste {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-  }
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 </style>
