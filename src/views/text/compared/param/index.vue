@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue'
 import Enter from './components/enter.vue'
+import EnterKeys from './components/enter-keys.vue'
 
 const enterValue: Ref<{ [key: string]: any }> = ref({})
+const enterKeysValue: Ref<string[]> = ref([])
 </script>
 
 <template>
@@ -17,7 +19,7 @@ const enterValue: Ref<{ [key: string]: any }> = ref({})
           <Enter v-model:value="enterValue" />
         </t-descriptions-item>
         <t-descriptions-item label="Keys">
-          <t-textarea :autosize="{ minRows: 8, maxRows: 8 }" />
+          <EnterKeys v-model:value="enterKeysValue" />
         </t-descriptions-item>
       </t-descriptions>
       <div v-if="Object.keys(enterValue).length > 0" class="">
