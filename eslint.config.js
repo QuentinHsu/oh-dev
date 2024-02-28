@@ -1,3 +1,4 @@
-import antfu from '@antfu/eslint-config'
+// eslint.config.js
+import { so1ve } from '@so1ve/eslint-config'
 
-export default antfu()
+export default so1ve()
