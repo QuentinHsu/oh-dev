@@ -1,180 +1,215 @@
-<script setup lang="tsx">
-import type { Ref } from 'vue'
-import { computed, reactive, ref } from 'vue'
-import { RiFileCopyLine } from '@remixicon/vue'
-import type { PrimaryTableCol, TableRowData } from 'tdesign-vue-next'
-import { isColor } from '@/utils/is.ts'
-import { copyText } from '@/utils/index.ts'
+<script setup lang="ts">
+import { RiFileCopyLine } from "@remixicon/vue";
+import type { PrimaryTableCol, TableProps } from "tdesign-vue-next";
+import type { PropType, Ref } from "vue";
+import { computed, ref, watch } from "vue";
+
+import { copyText } from "@/utils/index.ts";
+import { isColor } from "@/utils/is.ts";
+
+interface TypeData {
+	fullPath: string;
+	params: Record<PropertyKey, string>;
+}
 
 const props = defineProps({
-  data: {
-    type: Object,
-    default: () => {},
-  },
-})
-let sort = reactive({
-  sortBy: 'key',
-  descending: true,
-})
-const urlPath = computed(() => {
-  return props.data.fullPath && props.data.fullPath.split('?')[0]
-})
-const selectedRowKeys: Ref<(string | number)[]> = ref([])
+	data: {
+		type: Object as PropType<TypeData>,
+		default: () => ({
+			fullPath: "",
+			params: {},
+		}),
+	},
+});
+
+const sort = ref<TableProps["sort"]>({
+	sortBy: "key",
+	descending: true,
+});
+
+const urlPath = computed(() => props.data.fullPath?.split("?")[0]);
+
+const selectedRowKeys: Ref<(string | number)[]> = ref([]);
+
 function rehandleSelectChange(value: (string | number)[]): void {
-  selectedRowKeys.value = value
+	selectedRowKeys.value = value;
 }
-type SortOrder = 'asc' | 'desc' | 'all'
+
 interface Item {
-  key: string
+	key: string;
+	value: string;
 }
-function sortItems(array: Item[], order: SortOrder = 'asc'): Item[] {
-  if (order === 'all')
-    return array
-  return array.sort((a, b) => {
-    if (order === 'asc') {
-      // 升序排序
-      if (a.key > b.key)
-        return 1
 
-      else if (a.key < b.key)
-        return -1
+const tableData: Ref<Item[]> = ref([]);
 
-      else
-        return 0
-    }
-    else {
-      // 降序排序
-      if (a.key > b.key)
-        return -1
+function sortItems(sort: TableProps["sort"]) {
+	let newArray: Item[] = [...tableData.value];
 
-      else if (a.key < b.key)
-        return 1
-
-      else
-        return 0
-    }
-  })
+	if (Array.isArray(sort)) {
+		return;
+	}
+	if (sort) {
+		newArray = [...newArray].sort((a, b) => {
+			if (sort.sortBy === "asc") {
+				// 升序排序
+				if (a.key > b.key) {
+					return 1;
+				} else if (a.key < b.key) {
+					return -1;
+				} else {
+					return 0;
+				}
+			} else {
+				// 降序排序
+				if (a.key > b.key) {
+					return -1;
+				} else if (a.key < b.key) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		});
+	}
+	tableData.value = newArray;
 }
-const tableData = computed(() => {
-  const data = []
-  for (const key in props.data.params) {
-    if (Object.prototype.hasOwnProperty.call(props.data.params, key)) {
-      data.push({
-        key,
-        value: props.data.params[key],
-      })
-    }
-  }
-  const sortTypeText
-    = sort?.descending === true
-      ? 'asc'
-      : sort?.descending === false
-        ? 'desc'
-        : 'all'
-  return sortItems(data, sortTypeText)
-})
 
-const columns: PrimaryTableCol<TableRowData>[] = [
-  {
-    colKey: 'row-select',
-    type: 'multiple',
-    width: 50,
-  },
-  { colKey: 'key', title: 'Key', width: 350, sorter: true, sortType: 'all' },
-  {
-    colKey: 'value',
-    title: 'Value',
-  },
-]
+const columns: PrimaryTableCol[] = [
+	{
+		colKey: "row-select",
+		type: "multiple",
+		width: 50,
+	},
+	{ colKey: "key", title: "Key", width: 350, sorter: true, sortType: "all" },
+	{
+		colKey: "value",
+		title: "Value",
+	},
+];
 
-function sortChange(val: any) {
-  sort = val
-}
+const sortChange: TableProps["onSortChange"] = (val) => {
+	sort.value = val;
+	sortItems(val);
+};
 
 const newURL = computed(() => {
-  if (!urlPath.value)
-    return ''
+	if (!urlPath.value) {
+		return "";
+	}
 
-  let newURL = ''
-  const urlParams = selectedRowKeys.value.length
-    ? `?${selectedRowKeys.value.map((item) => {
-    return `${item}=${props.data.params[item]}`
-  }).join('&')}`
-    : ''
-  newURL = `${urlPath.value}${urlParams}`
-  return newURL
-})
+	let newURL = "";
+
+	const urlParams =
+		selectedRowKeys.value.length > 0
+			? `?${selectedRowKeys.value.map((item) => `${item}=${props.data.params[item]}`).join("&")}`
+			: "";
+
+	newURL = `${urlPath.value}${urlParams}`;
+
+	return newURL;
+});
+
+watch(
+	() => props.data,
+	() => {
+		if (Object.keys(props.data.params).length > 0) {
+			const data = [];
+
+			for (const key in props.data.params) {
+				if (Object.prototype.hasOwnProperty.call(props.data.params, key)) {
+					data.push({
+						key,
+						value: props.data.params[key],
+					});
+				}
+			}
+			tableData.value = data;
+		}
+	},
+	{ immediate: true, deep: true },
+);
 </script>
 
 <template>
-  <div class="params-table">
-    <t-table
-      row-key="key"
-      :data="tableData"
-      :columns="columns"
-      :sort="sort"
-      :selected-row-keys="selectedRowKeys"
-      @select-change="rehandleSelectChange"
-      @sort-change="sortChange"
-    >
-      <template #key="{ row }">
-        <div style="display: flex; align-items: center">
-          <div style="margin-right: 40px; display: inline-flex">
-            {{ row.key }}
-          </div>
-          <span class="icon-copy">
-            <RiFileCopyLine
-              v-show="row.key"
-              @click="copyText(row.key)"
-            />
-          </span>
-        </div>
-      </template>
-      <template #value="{ row }">
-        <div style="display: flex; align-items: center">
-          <span style="margin-right: 40px; display: inline-flex">
-            <template v-if="isColor(row.value)">
-              <span
-                :style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
-              >{{ row.value }}</span>
-            </template>
-            <template v-else>
-              {{ row.value }}
-            </template>
-          </span>
-          <span class="icon-copy">
-            <RiFileCopyLine
-              v-show="row.value"
-              @click="copyText(row.value)"
-            />
-          </span>
-        </div>
-      </template>
-    </t-table>
+	<div class="params-table">
+		<span class="sort-tag">排序：{{ sort }}</span>
+		<TTable
+			:columns="columns"
+			:data="tableData"
+			row-key="key"
+			:selected-row-keys="selectedRowKeys"
+			:sort="sort"
+			@select-change="rehandleSelectChange"
+			@sort-change="sortChange"
+		>
+			<template #key="{ row }">
+				<div class="column-label">
+					<div class="column-label-content">
+						{{ row.key }}
+					</div>
+					<span class="icon-copy">
+						<RiFileCopyLine v-show="row.key" @click="copyText(row.key)" />
+					</span>
+				</div>
+			</template>
+			<template #value="{ row }">
+				<div class="column-label">
+					<span class="column-label-content">
+						<template v-if="isColor(row.value)">
+							<span
+								:style="`background-color: ${row.value};padding: 5px; border-radius: 5px;`"
+							>
+								{{ row.value }}
+							</span>
+						</template>
+						<template v-else>
+							{{ row.value }}
+						</template>
+					</span>
+					<span class="icon-copy">
+						<RiFileCopyLine v-show="row.value" @click="copyText(row.value)" />
+					</span>
+				</div>
+			</template>
+		</TTable>
 
-    <t-alert v-if="newURL" style="margin-top: 20px;" theme="success" :title="newURL">
-      <template #operation>
-        <span @click="copyText(newURL)">Copy</span>
-      </template>
-    </t-alert>
-  </div>
+		<TAlert v-if="newURL" class="copy-url" theme="success" :title="newURL">
+			<template #operation>
+				<span @click="copyText(newURL)">Copy</span>
+			</template>
+		</TAlert>
+	</div>
 </template>
 
 <style lang="less" scoped>
 .icon-copy {
-  cursor: pointer;
-  color: var(--td-success-color-2);
-  :hover {
-    color: var(--td-success-color-9);
-  }
+	cursor: pointer;
+	color: var(--td-success-color-2);
+	:hover {
+		color: var(--td-success-color-9);
+	}
 }
 :deep(.t-alert__title) {
-  word-break: break-all;
-
+	word-break: break-all;
 }
 :deep(.t-alert__message) {
-  .t-alert__operation {
-    padding: 0;
-  }
+	.t-alert__operation {
+		padding: 0;
+	}
+}
+.sort-tag {
+	padding-left: 16px;
+	vertical-align: top;
+}
+.column-label {
+	display: flex;
+	align-items: center;
+	&-content {
+		margin-right: 40px;
+		display: inline-flex;
+	}
+}
+.copy-url {
+	margin-top: 20px;
 }
 </style>
