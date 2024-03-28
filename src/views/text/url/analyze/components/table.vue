@@ -21,7 +21,7 @@ const props = defineProps({
 		}),
 	},
 });
-
+const originData = ref<TypeData>({ fullPath: "", params: {} });
 const sort = ref<TableProps["sort"]>({
 	sortBy: "key",
 	descending: true,
@@ -89,7 +89,13 @@ const columns: PrimaryTableCol[] = [
 
 const sortChange: TableProps["onSortChange"] = (val) => {
 	sort.value = val;
-	sortItems(val);
+	if (val) {
+		sortItems(val);
+	} else {
+		tableData.value = Object.entries(originData.value.params).map(
+			([key, value]) => ({ key, value }),
+		);
+	}
 };
 
 const newURL = computed(() => {
@@ -125,6 +131,7 @@ watch(
 			}
 			tableData.value = data;
 		}
+		originData.value = props.data;
 	},
 	{ immediate: true, deep: true },
 );
@@ -132,7 +139,6 @@ watch(
 
 <template>
 	<div class="params-table">
-		<span class="sort-tag">排序：{{ sort }}</span>
 		<TTable
 			:columns="columns"
 			:data="tableData"
