@@ -10,6 +10,7 @@ import { isColor } from "@/utils/is.ts";
 interface TypeData {
 	fullPath: string;
 	params: Record<PropertyKey, string>;
+  raw: string;
 }
 
 const props = defineProps({
@@ -18,11 +19,12 @@ const props = defineProps({
 		default: () => ({
 			fullPath: "",
 			params: {},
+      raw: "",
 		}),
 	},
 });
 
-const originData = ref<TypeData>({ fullPath: "", params: {} });
+const originData = ref<TypeData>({ fullPath: "", params: {} , raw: ""});
 
 const sort = ref<TableProps["sort"]>({
 	sortBy: "key",
