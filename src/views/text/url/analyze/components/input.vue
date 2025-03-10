@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 
 import { REG_EXP_URL } from "@/constants/regex.ts";
 
@@ -10,6 +10,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 const form = reactive({
 	inputRaw: "",
+	inputDecoded: "",
 });
 
 const inputStatus: TypeTextURLAnalyze["inputStatus"] = reactive({
@@ -17,7 +18,7 @@ const inputStatus: TypeTextURLAnalyze["inputStatus"] = reactive({
 });
 
 function validatorInput(value: string): boolean | Record<PropertyKey, unknown> {
-	const infoURL = parseURL(form.inputRaw);
+	const infoURL = parseURL(value);
 
 	if (!value) {
 		inputStatus.isHttpURL = "default";
@@ -50,10 +51,22 @@ function validatorInput(value: string): boolean | Record<PropertyKey, unknown> {
  */
 function onClear(): void {
 	form.inputRaw = "";
+	form.inputDecoded = "";
 }
 
+watch(
+	() => form.inputRaw,
+	(newValue) => {
+		try {
+			form.inputDecoded = decodeURIComponent(newValue);
+		} catch {
+			form.inputDecoded = "";
+		}
+	},
+);
+
 const formRules = {
-	inputRaw: [{ validator: validatorInput }],
+	inputDecoded: [{ validator: validatorInput }],
 };
 
 defineExpose({
@@ -68,7 +81,17 @@ defineExpose({
 				v-model="form.inputRaw"
 				:autosize="{ minRows: 5 }"
 				class="input-textarea"
-				placeholder="请输入有效的 HTTP URL 内容"
+				placeholder="请输入原始 HTTP URL 内容"
+				:status="inputStatus.isHttpURL"
+			/>
+		</TFormItem>
+
+		<TFormItem name="inputDecoded">
+			<TTextarea
+				v-model="form.inputDecoded"
+				:autosize="{ minRows: 5 }"
+				class="input-textarea"
+				placeholder="显示 decodeURIComponent 后的内容"
 				:status="inputStatus.isHttpURL"
 			/>
 		</TFormItem>
