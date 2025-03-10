@@ -21,7 +21,9 @@ const props = defineProps({
 		}),
 	},
 });
+
 const originData = ref<TypeData>({ fullPath: "", params: {} });
+
 const sort = ref<TableProps["sort"]>({
 	sortBy: "key",
 	descending: true,
@@ -153,9 +155,9 @@ watch(
 					<div class="column-label-content">
 						{{ row.key }}
 					</div>
-					<span class="icon-copy">
+					<div class="icon-copy">
 						<RiFileCopyLine v-show="row.key" @click="copyText(row.key)" />
-					</span>
+					</div>
 				</div>
 			</template>
 			<template #value="{ row }">
@@ -189,6 +191,8 @@ watch(
 
 <style lang="less" scoped>
 .icon-copy {
+	display: flex;
+	align-items: center;
 	cursor: pointer;
 	color: var(--td-success-color-2);
 	:hover {
